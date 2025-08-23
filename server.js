@@ -6,8 +6,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import fs from "node:fs/promises";
 import path from "node:path";
-//import do cpfvalidator
-import cpfValidator from "cpf-cnpj-validator";
+import { cpf as cpfValidator } from "cpf-cnpj-validator";
 
 dotenv.config();
 
@@ -40,17 +39,22 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 app.post("/gerar-pix", async (req, res) => {
   try {
     const { valor, nome, email, causeId, causeTitle } = req.body ?? {};
-    const cpf = "98364460013"
-    if (!valor || !nome || !cpf || !email) {
-      return res.status(400).json({ erro: "Campos obrigatórios faltando (valor, nome, cpf, email)." });
+    const cpfRaw = "416.235.920-20";
+    if (!valor || !nome || !cpfRaw || !email) {
+      return res
+        .status(400)
+        .json({ erro: "Campos obrigatórios faltando (valor, nome, cpf, email)." });
     }
     if (!Number.isInteger(valor) || valor <= 0) {
-      return res.status(400).json({ erro: "Valor inválido: envie o total em centavos (ex.: 1500 = R$15,00)." });
+      return res
+        .status(400)
+        .json({ erro: "Valor inválido: envie o total em centavos (ex.: 1500 = R$15,00)." });
     }
-    if (valor < 500) { // mínimo R$ 5,00
+    if (valor < 500) {
+      // mínimo R$ 5,00
       return res.status(400).json({ erro: "O valor mínimo para doação é R$ 5,00." });
     }
-    if (!cpfValidator.isValid(cpf)) {
+    if (!cpfValidator.isValid(cpfRaw)) {
       return res.status(400).json({ erro: "CPF inválido." });
     }
 
@@ -60,14 +64,21 @@ app.post("/gerar-pix", async (req, res) => {
       paymentMethod: "pix",
       pix: { expirationSeconds: 3600 },
       items: [
-        { title: causeTitle || "Doação", unitPrice: valor, quantity: 1, tangible: false },
+        {
+          title: causeTitle || "Doação",
+          unitPrice: valor,
+          quantity: 1,
+          tangible: false,
+        },
       ],
       customer: {
-        document: { type: "cpf", number: cpfValidator.strip(cpf) },
+        document: { type: "cpf", number: cpfValidator.strip(cpfRaw) },
         name: String(nome).trim(),
         email: String(email).trim().toLowerCase(),
       },
-      externalRef: causeId ? `donation-${causeId}-${Date.now()}` : `donation-${Date.now()}`,
+      externalRef: causeId
+        ? `donation-${causeId}-${Date.now()}`
+        : `donation-${Date.now()}`,
     };
 
     const url = "https://api.blackcatpagamentos.com/v1/transactions";
@@ -75,26 +86,32 @@ app.post("/gerar-pix", async (req, res) => {
 
     const body = await httpJson(url, {
       method: "POST",
-      headers: { Authorization: auth, "Content-Type": "application/json", Accept: "application/json" },
+      headers: {
+        Authorization: auth,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify(payload),
       timeoutMs: 15000,
     });
 
-    // normaliza para o front
     const minimal = toMinimalFrontPayload(body);
     return res.json(minimal);
   } catch (err) {
     const isAbort = err?.name === "AbortError";
     console.error("[/gerar-pix] erro:", err);
-    return res.status(500).json({ erro: isAbort ? "Timeout ao comunicar com o provedor" : "Erro interno ao gerar PIX" });
+    return res
+      .status(500)
+      .json({
+        erro: isAbort
+          ? "Timeout ao comunicar com o provedor"
+          : "Erro interno ao gerar PIX",
+      });
   }
 });
 
 /**
  * GET /status/:id
- * - Consulta a transação na Blackcat
- * - Se PAGA: retorna 200 e incrementa `arrecadado` no causas.json (id extraído de externalRef)
- * - Se PENDENTE: retorna 202
  */
 app.get("/status/:id", async (req, res) => {
   const { id } = req.params;
@@ -117,7 +134,6 @@ app.get("/status/:id", async (req, res) => {
     const paidAmount = Number(trx?.paidAmount || 0);
     const amount = Number(trx?.amount || 0);
 
-    // Heurística de "pago"
     const isPaid =
       status === "paid" ||
       status === "approved" ||
@@ -128,10 +144,8 @@ app.get("/status/:id", async (req, res) => {
       return res.status(202).json({ status: trx?.status ?? "pending" });
     }
 
-    // Evita duplicar incremento (idempotência)
     const processed = await readProcessed(PROCESSED_JSON_PATH);
     if (!processed.has(id)) {
-      // tenta extrair o causeId do externalRef: donation-<causeId>-<timestamp>
       const causeId = extractCauseId(trx?.externalRef);
       if (causeId) {
         await incrementCausaArrecadado(CAUSAS_JSON_PATH, causeId, amount / 100);
@@ -144,7 +158,13 @@ app.get("/status/:id", async (req, res) => {
   } catch (err) {
     const isAbort = err?.name === "AbortError";
     console.error("[/status/:id] erro:", err);
-    return res.status(500).json({ erro: isAbort ? "Timeout ao comunicar com o provedor" : "Erro ao consultar status" });
+    return res
+      .status(500)
+      .json({
+        erro: isAbort
+          ? "Timeout ao comunicar com o provedor"
+          : "Erro ao consultar status",
+      });
   }
 });
 
@@ -154,13 +174,23 @@ function basicAuth(pub, sec) {
   return "Basic " + Buffer.from(`${pub}:${sec}`).toString("base64");
 }
 
-async function httpJson(url, { method = "GET", headers = {}, body, timeoutMs = 15000 } = {}) {
+async function httpJson(
+  url,
+  { method = "GET", headers = {}, body, timeoutMs = 15000 } = {}
+) {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const resp = await fetch(url, { method, headers, body, signal: controller.signal });
+    const resp = await fetch(url, {
+      method,
+      headers,
+      body,
+      signal: controller.signal,
+    });
     const ct = resp.headers.get("content-type") || "";
-    const data = ct.includes("application/json") ? await resp.json().catch(() => ({})) : await resp.text();
+    const data = ct.includes("application/json")
+      ? await resp.json().catch(() => ({}))
+      : await resp.text();
     if (!resp.ok) {
       const err = new Error("Request failed");
       err.response = data;
@@ -175,7 +205,8 @@ async function httpJson(url, { method = "GET", headers = {}, body, timeoutMs = 1
 
 function toMinimalFrontPayload(b) {
   const emv = b?.pix?.qrcode ?? b?.emv ?? b?.brcode ?? b?.payload ?? null;
-  const qrCodeImage = b?.pix?.qrCodeImage || b?.qr_code_base64 || b?.qr_code || null;
+  const qrCodeImage =
+    b?.pix?.qrCodeImage || b?.qr_code_base64 || b?.qr_code || null;
   const createdAt = b?.createdAt ?? null;
   const { expiresAt, expiresIn } = deriveExpiry(b);
   return {
@@ -227,7 +258,6 @@ function deriveExpiry(b) {
 
 function extractCauseId(externalRef) {
   if (typeof externalRef !== "string") return null;
-  // donation-<causeId>-<timestamp>
   const m = externalRef.match(/^donation-([^-\s]+)-\d+$/);
   return m ? m[1] : null;
 }
@@ -241,9 +271,15 @@ async function incrementCausaArrecadado(jsonPath, causeId, incrementReais) {
     throw new Error(`Arquivo inválido: ${jsonPath}`);
   }
 
-  // suporta array de causas ou objeto com "causas"
-  const list = Array.isArray(data) ? data : Array.isArray(data?.causas) ? data.causas : null;
-  if (!list) throw new Error("Estrutura de causas não suportada. Esperado array ou { causas: [] }.");
+  const list = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.causas)
+    ? data.causas
+    : null;
+  if (!list)
+    throw new Error(
+      "Estrutura de causas não suportada. Esperado array ou { causas: [] }."
+    );
 
   const idx = list.findIndex((c) => String(c.id) === String(causeId));
   if (idx === -1) {
@@ -252,7 +288,7 @@ async function incrementCausaArrecadado(jsonPath, causeId, incrementReais) {
   }
 
   const atual = Number(list[idx].arrecadado || 0);
-  const novo = Number((atual + incrementReais).toFixed(2)); // 2 casas decimais
+  const novo = Number((atual + incrementReais).toFixed(2));
 
   list[idx].arrecadado = novo;
 
@@ -287,15 +323,16 @@ async function writeProcessed(p, set) {
   await fs.writeFile(p, JSON.stringify({ processed: arr }, null, 2), "utf-8");
 }
 
+/* ----------- static frontend ----------- */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const distPath = path.join(__dirname, 'dist');
+const distPath = path.resolve(__dirname, "../server/dist");
 app.use(express.static(distPath));
 
-app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+app.get(/^\/(?!api).*/, (_req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
 app.listen(PORT, () => {

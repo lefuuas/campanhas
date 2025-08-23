@@ -1,16 +1,86 @@
 [
   {
-    "id": "Isabela-Campanha",
-    "titulo": "Ajude a Isabela a Vencer o Câncer",
-    "subdescricao": "O velório já estava sendo preparado. A família inteira foi chamada às pressas — não para comemorar um aniversário, mas para se despedir de uma criança que ainda está viva. Médicos disseram que ela não passaria da noite. A febre não cedia. O corpo já estava entrando em colapso. Foi então que, no meio do desespero, encontraram uma única dose do medicamento que poderia salvá-la. Aplicaram. E, por um milagre da ciência, ela reagiu. Abriu os olhos. Respirou melhor. Disse baixinho: “Eu quero viver.”",
-    "descricao": "O diagnóstico de leucemia veio como um choque para a família de Isabela. A menina, que sempre foi cheia de vida e alegria, de repente se viu enfrentando uma batalha difícil contra o câncer. As sessões de quimioterapia são longas e dolorosas, e os custos do tratamento são altos. A família luta para arrecadar fundos para cobrir as despesas médicas e garantir que Isabela receba o melhor cuidado possível. Cada contribuição faz uma diferença enorme na vida dela e da sua família. Juntos, podemos ajudar Isabela a vencer essa batalha e dar a ela a chance de um futuro brilhante.",
-    "meta": 15000,
-    "arrecadado": 1200,
-    "capa": "https://ajude-isabela-nu.vercel.app/images/JTELHCIHQ44i.PNG",
+    "id": "criancas-fome",
+    "titulo": "Alimente Crianças com Fome",
+    "subdescricao": "Ajude crianças em situação de fome no Brasil com refeições e alimentos essenciais.",
+    "descricao": "Milhares de crianças brasileiras passam fome todos os dias. Nossa missão é levar alimentos nutritivos e refeições completas para famílias em situação de vulnerabilidade social. Cada doação se transforma diretamente em cestas básicas, leite, frutas e refeições quentes. Juntos, podemos garantir que nenhuma criança durma com fome. Sua contribuição faz a diferença real na vida dessas famílias, proporcionando não apenas alimentação, mas esperança e dignidade.",
+    "meta": 5000,
+    "arrecadado": 2750,
+    "capa": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=400&fit=crop",
     "fotos": [
-      "https://ajude-isabela-nu.vercel.app/images/JTELHCIHQ44i.PNG",
-      "https://ajude-isabela-nu.vercel.app/images/JTELHCIHQ44i.PNG",
-      "https://ajude-isabela-nu.vercel.app/images/JTELHCIHQ44i.PNG"
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600&h=400&fit=crop"
+    ]
+  },
+  {
+    "id": "educacao-rural",
+    "titulo": "Educação nas Comunidades Rurais",
+    "subdescricao": "Leve material escolar e infraestrutura educacional para crianças do interior.",
+    "descricao": "A educação é a chave para transformar o futuro das comunidades rurais. Muitas escolas do interior brasileiro carecem de materiais básicos, livros, computadores e infraestrutura adequada. Este projeto visa equipar essas escolas com tudo que precisam para oferecer uma educação de qualidade. Vamos construir bibliotecas, laboratórios de informática e fornecer material escolar completo. Investir na educação rural é investir no desenvolvimento sustentável de todo o país.",
+    "meta": 8000,
+    "arrecadado": 3200,
+    "capa": "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&h=400&fit=crop",
+    "fotos": [
+      "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=600&h=400&fit=crop"
+    ]
+  },
+  {
+    "id": "idosos-abandono",
+    "titulo": "Cuidando dos Nossos Idosos",
+    "subdescricao": "Ofereça cuidados médicos e companhia para idosos em situação de abandono.",
+    "descricao": "Nossos idosos merecem viver com dignidade e carinho. Muitos se encontram em situação de abandono, sem acesso adequado a cuidados médicos, medicamentos e, principalmente, sem o afeto humano que tanto precisam. Este projeto visa criar uma rede de cuidados que inclui visitas domiciliares, acompanhamento médico, fornecimento de medicamentos e atividades sociais. Queremos garantir que cada idoso se sinta amado e cuidado em seus anos dourados.",
+    "meta": 12000,
+    "arrecadado": 7500,
+    "capa": "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=800&h=400&fit=crop",
+    "fotos": [
+      "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop"
+    ]
+  },
+  {
+    "id": "animais-resgate",
+    "titulo": "Resgate de Animais Abandonados",
+    "subdescricao": "Ajude no resgate, tratamento veterinário e adoção responsável de animais.",
+    "descricao": "Milhares de animais vivem nas ruas, sofrendo com fome, doenças e maus-tratos. Nossa ONG trabalha incansavelmente para resgatar esses animais, oferecer tratamento veterinário completo, castração e encontrar lares amorosos através da adoção responsável. Cada doação nos permite salvar mais vidas, construir abrigos temporários adequados e manter uma equipe veterinária dedicada. Juntos, podemos dar uma segunda chance para esses seres que só querem amor e cuidado.",
+    "meta": 6000,
+    "arrecadado": 4200,
+    "capa": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=400&fit=crop",
+    "fotos": [
+      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop"
+    ]
+  },
+  {
+    "id": "meio-ambiente",
+    "titulo": "Reflorestamento da Mata Atlântica",
+    "subdescricao": "Plante árvores nativas e recupere áreas degradadas da Mata Atlântica.",
+    "descricao": "A Mata Atlântica é um dos biomas mais ameaçados do Brasil, com apenas 12% de sua cobertura original preservada. Este projeto visa reflorestar áreas degradadas com espécies nativas, criando corredores ecológicos que conectam fragmentos florestais. Cada doação se transforma em mudas, sementes e mão de obra especializada para o plantio e manutenção. Além da recuperação ambiental, geramos empregos para comunidades locais e contribuímos para o combate às mudanças climáticas.",
+    "meta": 15000,
+    "arrecadado": 9800,
+    "capa": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop",
+    "fotos": [
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1471919743851-c4df8b6ee133?w=600&h=400&fit=crop"
+    ]
+  },
+  {
+    "id": "mulheres-violencia",
+    "titulo": "Apoio às Vítimas de Violência Doméstica",
+    "subdescricao": "Ofereça suporte psicológico, jurídico e abrigo para mulheres em situação de risco.",
+    "descricao": "A violência doméstica é uma realidade trágica que afeta milhões de mulheres. Nossa casa de apoio oferece abrigo seguro, suporte psicológico especializado, orientação jurídica e capacitação profissional para que essas mulheres possam reconstruir suas vidas com autonomia e segurança. Precisamos de recursos para manter a casa funcionando, contratar profissionais qualificados e oferecer cursos de capacitação. Sua doação pode salvar vidas e dar esperança para quem mais precisa.",
+    "meta": 10000,
+    "arrecadado": 5600,
+    "capa": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
+    "fotos": [
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&h=400&fit=crop"
     ]
   }
 ]
