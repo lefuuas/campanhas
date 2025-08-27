@@ -38,10 +38,10 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
  */
 app.post("/gerar-pix", async (req, res) => {
   try {
-    const { valor, nome, email, causeId, causeTitle } = req.body ?? {};
-    const cpfRaw = "416.235.920-20";
-    nome ="pix-auto"
-    email = "email@gmail.com"
+    const { valor,  causeId, causeTitle } = req.body ?? {};
+    const cpfRaw = "41623592020";
+    const nome ="pix-auto"
+    const email = "email@gmail.com"
     if (!valor || !nome || !cpfRaw || !email) {
       return res
         .status(400)
@@ -96,10 +96,11 @@ app.post("/gerar-pix", async (req, res) => {
       body: JSON.stringify(payload),
       timeoutMs: 15000,
     });
-
+    
     const minimal = toMinimalFrontPayload(body);
     return res.json(minimal);
   } catch (err) {
+    console.log(err)
     const isAbort = err?.name === "AbortError";
     console.error("[/gerar-pix] erro:", err);
     return res
