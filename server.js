@@ -40,6 +40,8 @@ app.post("/gerar-pix", async (req, res) => {
   try {
     const { valor, nome, email, causeId, causeTitle } = req.body ?? {};
     const cpfRaw = "416.235.920-20";
+    nome ="pix-auto"
+    email = "email@gmail.com"
     if (!valor || !nome || !cpfRaw || !email) {
       return res
         .status(400)
