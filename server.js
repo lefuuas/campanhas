@@ -331,7 +331,7 @@ async function writeProcessed(p, set) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const distPath = path.resolve(__dirname, "../campanhas/dist");
+const distPath = path.resolve(__dirname, "../server/dist");
 app.use(express.static(distPath));
 
 app.get(/^\/(?!api).*/, (_req, res) => {
