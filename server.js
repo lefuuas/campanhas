@@ -171,6 +171,28 @@ app.get("/status/:id", async (req, res) => {
   }
 });
 
+app.post("/webhook-pagamento", async (req, res) => {
+  try {
+    const { status, amount, customer, externalRef } = req.body ?? {};
+
+    // Só processa se o pagamento foi aprovado
+    if (status === "paid") {
+      await registrarConversaoUTMify({
+        valor: amount,
+        email: customer?.email,
+        nome: customer?.name,
+        externalRef
+      });
+    }
+
+    res.sendStatus(200); // Sempre responde 200 pro gateway
+  } catch (err) {
+    console.error("Erro no webhook de pagamento:", err);
+    res.sendStatus(500);
+  }
+});
+
+
 /* ------------ helpers ------------ */
 
 function basicAuth(pub, sec) {
@@ -203,6 +225,34 @@ async function httpJson(
     return data;
   } finally {
     clearTimeout(t);
+  }
+}
+
+async function registrarConversaoUTMify(pedido) {
+  try {
+    const response = await fetch("https://api.utmify.com.br/v1/conversions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer fsaeu72rtzu6JAN24fY43xbA5MtIyVOcpgLU"
+      },
+      body: JSON.stringify({
+        pixelId: "68a16de53e268ea6714d13a7", // seu pixel
+        event: "Purchase",
+        value: pedido.valor / 100, // Blackcat manda em centavos, UTMify espera em reais
+        currency: "BRL",
+        customer: {
+          email: pedido.email,
+          name: pedido.nome
+        },
+        externalRef: pedido.externalRef
+      })
+    });
+
+    const result = await response.json();
+    console.log("Conversão enviada para UTMify:", result);
+  } catch (err) {
+    console.error("Erro ao enviar conversão para UTMify:", err);
   }
 }
 
